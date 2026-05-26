@@ -1,67 +1,84 @@
-# Prompt and Artificial Intelligence
+# ☀️ SolarGuard AI — Prompt & Artificial Intelligence
 
-> SolarGuard — Global Solution 2026.1 | FIAP 1CCPY
-
----
-
-## 📌 Sobre esta entrega
-
-Esta pasta contém o agente de IA da plataforma SolarGuard. Usando engenharia de prompt e um modelo de linguagem (LLM), o sistema interpreta os dados dos ciclos de monitoramento e gera análises inteligentes, previsões de falha e recomendações automáticas de ação em português.
+> Global Solution 2026.1 — FIAP | Space Connect
 
 ---
 
-## 👥 Integrantes
+# 📌 Sobre o Projeto
 
-| Nome | RM |
-|---|---|
-| Jair Ferreira dos Santos Neto | 569682 |
-| Matheus da Costa Gonçalves | 570756 |
-| Yan Luiz Neves Lemos | 571717 |
-| Arthur dos Santos Bezerra | 569721 |
-| Carlos Henrique Fratezi | 571792 |
+O SolarGuard AI é um sistema inteligente desenvolvido para monitoramento operacional de missões solares.
 
----
+O sistema utiliza lógica computacional e engenharia de prompt para interpretar dados de monitoramento e gerar respostas inteligentes automaticamente.
 
-## 🤖 O que o agente faz
+A solução analisa informações críticas como:
 
-Dado um ciclo de monitoramento com temperatura, comunicação, bateria, oxigênio e estabilidade, o agente:
+- Irradiação solar
+- Temperatura
+- Nível da bateria
+- Cobertura de nuvens
+- Estabilidade operacional
 
-- Analisa o **status atual** da missão
-- **Prevê possíveis falhas** com base nas tendências dos dados
-- Gera **recomendações automáticas** de ação
-- Responde em linguagem natural em **português**
+Com base nesses dados, o sistema identifica situações de:
 
----
+- ✅ Operação Normal
+- ⚠️ Estado de Atenção
+- 🚨 Estado Crítico
 
-## 🧠 Engenharia de Prompt
-
-O sistema utiliza prompts estruturados com:
-
-- **Contexto do sistema**: define o papel do agente como controlador de missão
-- **Dados de entrada**: os valores do ciclo atual em formato estruturado
-- **Instruções de raciocínio**: orienta o modelo a analisar cada variável antes de concluir
-- **Formato de saída**: exige resposta organizada em status, previsão e recomendação
+Além disso, a IA gera recomendações automáticas para auxiliar na tomada de decisão operacional.
 
 ---
 
-## 📂 Arquivos
+# 🧠 Funcionalidades
 
-| Arquivo | Descrição |
-|---|---|
-| `agente_ia.py` | Código do agente com chamadas ao LLM e prompts documentados |
-| `README.md` | Este arquivo |
+## ✅ Análise Inteligente
+O sistema interpreta automaticamente os dados da missão.
+
+## ✅ Classificação de Risco
+Define o nível operacional da missão:
+- Normal
+- Atenção
+- Crítico
+
+## ✅ Monitoramento de Tendência
+Compara ciclos anteriores para detectar piora operacional.
+
+## ✅ Recomendações Automáticas
+Gera respostas inteligentes simulando um agente de IA.
 
 ---
 
-## ▶️ Como executar
+# 💻 Tecnologias Utilizadas
 
-```bash
-pip install requests
-python agente_ia.py
+- Python 3
+- Estruturas Condicionais
+- Engenharia de Prompt
+- Simulação de Inteligência Artificial
+- Lógica Computacional
+
+---
+
+# 🚀 Exemplo de Resposta da IA
+
+```python
+A missão apresenta risco crítico.
+A bateria está em 15%.
+A temperatura está em 47°C.
+A cobertura de nuvens chegou a 95%.
+
+Recomenda-se ativar o sistema de backup,
+reduzir o consumo energético e priorizar cargas essenciais.
 ```
 
 ---
 
-## 💻 Repositório principal
+# 👨‍🚀 Integrantes
 
-[SolarGuard](../README.md)
+- Jair Ferreira dos Santos Neto — RM 569682
+- Matheus da Costa Gonçalves — RM 570756
+- Yan Luiz Neves Lemos — RM 571717
+
+---
+
+# 🎯 Objetivo da Global Solution
+
+Desenvolver soluções inteligentes voltadas para eficiência energética, automação de análise operacional e tomada de decisão utilizando conceitos de programação e inteligência artificial.
