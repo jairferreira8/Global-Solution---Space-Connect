@@ -1,84 +1,73 @@
-# ☀️ SolarGuard AI — Prompt & Artificial Intelligence
+# Prompt and Artificial Intelligence
 
-> Global Solution 2026.1 — FIAP | Space Connect
-
----
-
-# 📌 Sobre o Projeto
-
-O SolarGuard AI é um sistema inteligente desenvolvido para monitoramento operacional de missões solares.
-
-O sistema utiliza lógica computacional e engenharia de prompt para interpretar dados de monitoramento e gerar respostas inteligentes automaticamente.
-
-A solução analisa informações críticas como:
-
-- Irradiação solar
-- Temperatura
-- Nível da bateria
-- Cobertura de nuvens
-- Estabilidade operacional
-
-Com base nesses dados, o sistema identifica situações de:
-
-- ✅ Operação Normal
-- ⚠️ Estado de Atenção
-- 🚨 Estado Crítico
-
-Além disso, a IA gera recomendações automáticas para auxiliar na tomada de decisão operacional.
+> SolarGuard — Global Solution 2026.1 | FIAP 1CCPY
 
 ---
 
-# 🧠 Funcionalidades
+## 📌 Sobre esta entrega
 
-## ✅ Análise Inteligente
-O sistema interpreta automaticamente os dados da missão.
-
-## ✅ Classificação de Risco
-Define o nível operacional da missão:
-- Normal
-- Atenção
-- Crítico
-
-## ✅ Monitoramento de Tendência
-Compara ciclos anteriores para detectar piora operacional.
-
-## ✅ Recomendações Automáticas
-Gera respostas inteligentes simulando um agente de IA.
+Esta pasta contém o agente de IA da plataforma SolarGuard. Usando engenharia de prompt e o modelo Llama 3, o sistema interpreta os dados dos ciclos de monitoramento e gera análises inteligentes, previsões de falha e recomendações automáticas de ação em português.
 
 ---
 
-# 💻 Tecnologias Utilizadas
+## 👥 Integrantes
 
-- Python 3
-- Estruturas Condicionais
-- Engenharia de Prompt
-- Simulação de Inteligência Artificial
-- Lógica Computacional
+| Nome | RM |
+|---|---|
+| Jair Ferreira dos Santos Neto | 569682 |
+| Yan Luiz Neves Lemos | 571717 |
+| Matheus da Costa Gonçalves | 570756 |
 
 ---
 
-# 🚀 Exemplo de Resposta da IA
+## ⚙️ Pré-requisitos
 
+### Opção 1 — Groq API (recomendado, online)
+
+1. Acesse [https://console.groq.com](https://console.groq.com) e crie uma conta gratuita
+2. No menu lateral, clique em **API Keys → Create API Key**
+3. Copie a chave gerada (começa com `gsk_...`)
+4. No arquivo `main.py`, substitua:
 ```python
-A missão apresenta risco crítico.
-A bateria está em 15%.
-A temperatura está em 47°C.
-A cobertura de nuvens chegou a 95%.
+   GROQ_API_KEY = "sua-chave-aqui"
+```
+   pela sua chave real
 
-Recomenda-se ativar o sistema de backup,
-reduzir o consumo energético e priorizar cargas essenciais.
+Não é necessário instalar nenhuma biblioteca — o código usa apenas `urllib`, que já vem com o Python.
+
+---
+
+### Opção 2 — Ollama (offline, local)
+
+Caso prefira rodar o modelo localmente sem depender de internet:
+
+1. Acesse [https://ollama.com](https://ollama.com) e baixe o instalador para o seu sistema
+2. Instale o Ollama normalmente
+3. Abra o terminal e execute:
+```bash
+   ollama pull llama3
+```
+4. Para iniciar o servidor local:
+```bash
+   ollama serve
+```
+
+> ⚠️ O código atual está configurado para a Groq API. Para usar o Ollama, é necessário alterar a URL e o formato da requisição no arquivo `main.py`.
+
+---
+
+## ▶️ Como executar
+
+```bash
+python main.py
 ```
 
 ---
 
-# 👨‍🚀 Integrantes
+## 📂 Arquivos
 
-- Jair Ferreira dos Santos Neto — RM 569682
-- Matheus da Costa Gonçalves — RM 570756
-- Yan Luiz Neves Lemos — RM 571717
+| Arquivo | Descrição |
+|---|---|
+| `main.py` | Agente de IA com chamadas ao LLM e prompts documentados |
+| `README.md` | Este arquivo |
 
----
-
-# 🎯 Objetivo da Global Solution
-
-Desenvolver soluções inteligentes voltadas para eficiência energética, automação de análise operacional e tomada de decisão utilizando conceitos de programação e inteligência artificial.
