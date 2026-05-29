@@ -1,63 +1,34 @@
 # Computer Organization and Architecture — Estação Receptora IoT
 
-> SolarGuard — Global Solution 2026.1 | FIAP 1CCPY
+SolarGuard — Global Solution 2026.1 | FIAP 1CCPY
 
 ---
 
-## 📌 Sobre esta entrega
+Simulação IoT no TinkerCAD de uma estação receptora terrestre do SolarGuard. Um Arduino Uno lê dados de temperatura (TMP36), irradiância simulada (LDR) e vibração (botão), exibe as leituras em um display LCD 16x2 com 4 telas rotativas e aciona um LED de alerta quando alguma variável sai dos parâmetros normais.
 
-Esta pasta contém a simulação IoT da estação receptora terrestre da plataforma SolarGuard. O sistema simula um microcontrolador que recebe dados de irradiância solar e condições operacionais, processa essas informações e as exibe em tempo real em um display.
-
-A simulação foi desenvolvida no **Wokwi** utilizando Arduino/ESP32.
-
----
-
-## 👥 Integrantes
+## Integrantes
 
 | Nome | RM |
 |---|---|
 | Jair Ferreira dos Santos Neto | 569682 |
 | Matheus da Costa Gonçalves | 570756 |
 | Yan Luiz Neves Lemos | 571717 |
-| Arthur dos Santos Bezerra | 569721 |
-| Carlos Henrique Fratezi | 571792 |
 
----
+## Componentes
 
-## 🔧 Componentes Utilizados
-
-| Componente | Função |
+| Componente | Pino |
 |---|---|
-| Arduino Uno / ESP32 | Microcontrolador principal |
-| Sensor de temperatura (NTC/DHT22) | Leitura de temperatura do módulo |
-| Sensor de luminosidade (LDR) | Leitura de irradiância simulada |
-| Sensor de vibração | Detecção de instabilidade |
-| Display LCD 16x2 | Exibição contínua dos dados |
+| TMP36 | A1 |
+| LDR | A0 |
+| Botão (vibração) | 3 |
+| LED de alerta | 4 |
+| LCD 16x2 | RS=12, EN=11, D4–D7=10,9,8,7 |
+
+## Simulação
+
+- TinkerCAD: https://www.tinkercad.com/things/gqa7YZgWTqJ/editel?returnTo=%2Fdashboard&sharecode=F6N9oxdmQpE4hTzXkVGLKu64Vj7wp1iImYSgE5kMVJ4
+- Vídeo: *(link a inserir)*
 
 ---
 
-## 📡 O que o sistema monitora
-
-- Temperatura interna do módulo
-- Luminosidade (irradiância solar simulada)
-- Vibração / instabilidade
-- Exibição em tempo real no display LCD
-
----
-
-## 📂 Arquivos
-
-| Arquivo | Descrição |
-|---|---|
-| `link_wokwi.txt` | Link da simulação no Wokwi |
-| `codigo.ino` | Código-fonte do microcontrolador |
-| `relatorio_tecnico.pdf` | Relatório com prints, circuito e explicação |
-| `README.md` | Este arquivo |
-
----
-
-## 🔗 Links
-
-- 🔌 Simulação Wokwi: *(a inserir)*
-- 📺 Vídeo de demonstração: *(a inserir)*
-- 💻 Repositório principal: [SolarGuard](../README.md)
+[Voltar](../README.md)

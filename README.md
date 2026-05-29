@@ -25,8 +25,6 @@ A tecnologia espacial — especificamente o **sensoriamento remoto por satélite
 | Jair Ferreira dos Santos Neto | 569682 |
 | Matheus da Costa Gonçalves | 570756 |
 | Yan Luiz Neves Lemos | 571717 |
-| Arthur dos Santos Bezerra | 569721 |
-| Carlos Henrique Fratezi | 571792 |
 
 ---
 

@@ -1,15 +1,3 @@
-# =============================================================
-#   SolarGuard — Monitoramento Energético Solar
-#   Missão Espacial Experimental
-#   Global Solution 2026.1 — SERS
-#   Grupo 5 | Turma 1CCPY | FIAP
-# =============================================================
-#   Integrantes:
-#   Matheus da Costa Gonçalves     — RM 570756
-#   Jair Ferreira dos Santos Neto  — RM 569682
-#   Yan Luiz Neves Lemos           — RM 571717
-# =============================================================
-
 import matplotlib.pyplot as plt
 
 dados_missao = [

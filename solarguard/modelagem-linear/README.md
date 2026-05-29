@@ -1,66 +1,34 @@
-# Modelagem Linear para Aprendizado de Máquina
+# Modelagem Linear — Análise Estatística de Irradiância Solar
 
-> SolarGuard — Global Solution 2026.1 | FIAP 1CCPY
-
----
-
-## 📌 Sobre esta entrega
-
-Esta pasta contém a análise estatística descritiva aplicada a um dataset real de irradiância solar obtido de fontes satelitais públicas (NASA POWER / Kaggle). A análise foi desenvolvida em Python e inclui tabelas de distribuição de frequência, gráficos e medidas estatísticas completas.
+SolarGuard — Global Solution 2026.1 | FIAP 1CCPY
 
 ---
 
-## 👥 Integrantes
+Análise estatística descritiva da irradiância solar diária em São Paulo ao longo de 2023, com base em dados reais da NASA POWER API (365 registros). Inclui distribuição de frequências para variável discreta (mês) e contínua (irradiância em classes pela Regra de Sturges), análise univariada completa e relatório com interpretação dos resultados.
+
+## Integrantes
 
 | Nome | RM |
 |---|---|
 | Jair Ferreira dos Santos Neto | 569682 |
 | Matheus da Costa Gonçalves | 570756 |
 | Yan Luiz Neves Lemos | 571717 |
-| Arthur dos Santos Bezerra | 569721 |
-| Carlos Henrique Fratezi | 571792 |
 
----
+## Como executar
 
-## 📊 O que foi desenvolvido
-
-- **Tabela de distribuição de frequências** para 1 variável quantitativa discreta e 1 contínua
-- **2 gráficos distintos** com título, rótulos dos eixos, cores e demais elementos obrigatórios
-- **Análise univariada** com:
-  - Medidas de tendência central: média, mediana e moda
-  - Medidas de dispersão: máximo, mínimo, amplitude, variância, desvio padrão e CV
-  - Medidas separatrizes: quartis
-- **Relatório estatístico** com interpretação dos resultados e insights para a tomada de decisão
-
----
-
-## 📂 Arquivos
-
-| Arquivo | Descrição |
-|---|---|
-| `dataset.csv` | Base de dados real de irradiância solar |
-| `analise.py` | Código Python com toda a análise estatística |
-| `relatorio.pdf` | Relatório final com tabelas, gráficos e interpretações |
-| `README.md` | Este arquivo |
-
----
-
-## 🔗 Fonte do Dataset
-
-- NASA POWER API: https://power.larc.nasa.gov
-- Kaggle: https://www.kaggle.com
-
----
-
-## ▶️ Como executar
+Rode a partir da pasta `modelagem-linear/`:
 
 ```bash
 pip install pandas matplotlib scipy
 python analise.py
 ```
 
+Gera dois gráficos (`grafico1_irradiancia_mensal.png` e `grafico2_histograma_irradiancia.png`) usados no relatório.
+
+## Fonte dos dados
+
+NASA POWER API — São Paulo, SP (lat: −23,55 / lon: −46,63) | 2023
+
 ---
 
-## 💻 Repositório principal
-
-[SolarGuard](../README.md)
+[Voltar](../README.md)

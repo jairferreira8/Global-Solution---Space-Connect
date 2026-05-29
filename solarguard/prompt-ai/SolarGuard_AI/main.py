@@ -25,22 +25,23 @@ BRANCO   = "\033[97m"
 
 COLUNAS = ["temperatura", "comunicacao", "bateria", "oxigenio", "estabilidade"]
 
+# [temperatura(°C), comunicacao(%), bateria(%), oxigenio(%), estabilidade(%)]
 dados_missao = [
-    [24, 95, 88, 97, 98],
-    [27, 91, 80, 96, 94],
-    [35, 72, 61, 94, 85],
-    [48, 55, 38, 91, 70],
-    [63, 30, 19, 88, 52],
-    [45, 58, 35, 90, 67],
+    [22, 98, 87, 95, 90],
+    [31, 94, 76, 93, 85],
+    [45, 87, 61, 90, 70],
+    [58, 72, 42, 85, 55],
+    [38, 89, 55, 92, 75],
+    [27, 96, 71, 94, 82],
 ]
 
 DESCRICOES_CICLO = [
-    "Início da missão — sistemas nominais",
-    "Estabilização — leve queda de bateria",
-    "Queda parcial de comunicação e energia",
-    "Alerta de energia — comunicação degradada",
-    "Risco operacional elevado",
-    "Tentativa de recuperação parcial",
+    "Conexão inicial com satélite NASA POWER",
+    "Estabilização da janela de coleta",
+    "Interferência atmosférica detectada",
+    "Degradação do canal de comunicação",
+    "Tentativa de realinhamento do link satelital",
+    "Restabelecimento do link e normalização",
 ]
 
 
@@ -58,34 +59,35 @@ def montar_system_prompt():
     - Formato de saída definido explicitamente
     - Proibição de invenção de dados
     """
-    return """Você é o Mission Control AI, o sistema de inteligência artificial da plataforma SolarGuard.
+    return """Você é o Mission Control AI da plataforma SolarGuard.
 
-Sua função é analisar dados de ciclos de monitoramento de uma estação receptora de dados satelitais
-e gerar análises precisas, previsões de falha e recomendações de ação.
+O SolarGuard é uma plataforma de inteligência energética que consome dados de irradiância solar
+coletados por satélites públicos (NASA POWER, Copernicus/ESA, INPE) e monitora as condições
+operacionais do módulo receptor orbital responsável por essa coleta.
 
 CONTEXTO DO SISTEMA:
-- A estação SolarGuard recebe dados de irradiância solar de satélites da NASA e ESA
-- Os sensores monitoram 5 variáveis operacionais: temperatura, comunicação, bateria, oxigênio e estabilidade
-- Cada ciclo representa um momento de coleta de dados
+- Cada ciclo representa uma janela de coleta de dados satelitais
+- O módulo orbital monitora: temperatura interna, link de comunicação, bateria, oxigênio e estabilidade
+- Anomalias nos ciclos afetam diretamente a qualidade e continuidade dos dados de irradiância entregues à plataforma
 
 REGRAS DE RACIOCÍNIO (siga esta ordem antes de responder):
-1. Analise cada variável individualmente e verifique se está dentro dos parâmetros normais
-2. Identifique quais variáveis representam risco imediato
-3. Verifique se existe combinação de variáveis que agrava o risco (ex: bateria baixa + comunicação falha)
-4. Formule uma previsão baseada na tendência dos dados
-5. Gere uma recomendação concreta e acionável
+1. Analise cada variável e verifique se está dentro dos parâmetros normais
+2. Identifique quais variáveis representam risco imediato à operação do módulo
+3. Verifique combinações que agravam o risco (ex: bateria baixa + comunicação degradada = perda de dados)
+4. Formule uma previsão com base na tendência dos ciclos
+5. Gere uma recomendação concreta voltada à continuidade da coleta de dados satelitais
 
 PARÂMETROS DE REFERÊNCIA:
-- Temperatura: normal < 40°C | atenção 40–60°C | crítico > 60°C
-- Comunicação: normal > 70% | atenção 40–70% | crítico < 40%
-- Bateria: normal > 50% | atenção 20–50% | crítico < 20%
-- Oxigênio: normal > 92% | atenção 85–92% | crítico < 85%
-- Estabilidade: normal > 75% | atenção 55–75% | crítico < 55%
+- Temperatura: normal ≤ 30°C | atenção 30–35°C | crítico > 35°C
+- Comunicação: normal ≥ 60% | atenção 30–59% | crítico < 30%
+- Bateria: normal ≥ 50% | atenção 20–49% | crítico < 20%
+- Oxigênio: normal ≥ 90% | atenção 80–89% | crítico < 80%
+- Estabilidade: normal ≥ 70% | atenção 40–69% | crítico < 40%
 
 FORMATO DE RESPOSTA OBRIGATÓRIO (use exatamente estas seções):
 📊 STATUS: [ESTÁVEL / ATENÇÃO / CRÍTICO] — justificativa em uma frase
 ⚠️ PREVISÃO: o que pode acontecer nos próximos ciclos se a tendência continuar
-🛠️ RECOMENDAÇÃO: ação concreta e imediata que o operador deve tomar
+🛠️ RECOMENDAÇÃO: ação concreta para garantir a continuidade da coleta de dados satelitais
 
 RESTRIÇÕES:
 - Responda sempre em português do Brasil
@@ -219,7 +221,7 @@ def exibir_rodape():
 def main():
     exibir_cabecalho()
 
-    if GROQ_API_KEY == "sua-chave-aqui":
+    if GROQ_API_KEY == "sua-API-aqui":
         print(f"{VERMELHO}{BOLD}  ATENÇÃO: Chave de API não configurada.{RESET}")
         print(f"  Acesse {CIANO}https://console.groq.com{RESET} e insira sua chave")
         print(f"  na variável {AMARELO}GROQ_API_KEY{RESET} no início do arquivo.")
