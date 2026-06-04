@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>SolarGuard — Relatório Técnico Computer Science</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.55;
+    }
+
+    @page { size: A4; margin: 2cm 2.2cm 2cm 2.2cm; }
+    @media print {
+      .page-break { page-break-before: always; }
+      body { font-size: 10pt; }
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 24px 32px; }
+
+    .capa {
+      text-align: center;
+      padding: 56px 0 36px;
+      border-bottom: 3px solid #e67e22;
+      margin-bottom: 36px;
+    }
+    .capa .logo { font-size: 26pt; font-weight: bold; color: #e67e22; letter-spacing: 3px; }
+    .capa .subtitulo { font-size: 12pt; color: #666; margin-top: 5px; }
+    .capa .titulo { font-size: 15pt; font-weight: bold; color: #1a1a1a; margin: 28px 0 8px; }
+    .capa .info { font-size: 10pt; color: #555; line-height: 1.9; margin-top: 18px; }
+
+    h2 {
+      font-size: 12.5pt;
+      color: #e67e22;
+      border-bottom: 1.5px solid #e67e22;
+      padding-bottom: 4px;
+      margin: 32px 0 12px;
+    }
+
+    h3 { font-size: 10.5pt; color: #333; margin: 18px 0 7px; }
+
+    p { margin-bottom: 10px; text-align: justify; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 18px;
+      font-size: 9.5pt;
+    }
+    thead tr { background: #e67e22; color: #fff; }
+    thead th { padding: 6px 8px; text-align: center; }
+    tbody tr:nth-child(even) { background: #fdf3e7; }
+    tbody td {
+      padding: 4px 8px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+    tbody td:first-child { text-align: left; }
+
+    .formula {
+      background: #fdf3e7;
+      border-left: 4px solid #e67e22;
+      padding: 10px 14px;
+      margin: 10px 0 16px;
+      font-family: "Courier New", monospace;
+      font-size: 11pt;
+      text-align: center;
+    }
+
+    .box {
+      background: #fdf3e7;
+      border-left: 4px solid #e67e22;
+      padding: 12px 16px;
+      margin: 12px 0 20px;
+      font-size: 10pt;
+    }
+    .box ul { padding-left: 18px; }
+    .box li { margin-bottom: 5px; }
+
+    .circuito {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 18px 20px;
+      font-family: "Courier New", monospace;
+      font-size: 9pt;
+      line-height: 1.5;
+      white-space: pre;
+      margin: 12px 0 16px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    .truth-mini th { padding: 4px 6px; font-size: 9pt; }
+    .truth-mini td { padding: 3px 6px; font-size: 9pt; }
+
+    .alerta-1 { background: #ffe5e5 !important; color: #c0392b; font-weight: bold; }
+    .alerta-0 { color: #555; }
+
+    .hl { color: #c0392b; font-weight: bold; }
+
+    .rodape {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 12px;
+      border-top: 2px solid #e67e22;
+      font-size: 9pt;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- CAPA -->
+  <div class="capa">
+    <div class="logo">☀ SOLARGUARD</div>
+    <div class="subtitulo">Plataforma de Inteligência Energética Solar</div>
+    <div class="titulo">Relatório Técnico — Sistema de Alerta por Lógica Digital<br>Computer Science</div>
+    <div class="info">
+      Global Solution 2026.1 — FIAP 1CCPY — Grupo 5<br>
+      Mission Control AI — Camada de Lógica Booleana<br>
+      Jair Ferreira dos Santos Neto — RM 569682<br>
+      Matheus da Costa Gonçalves — RM 570756<br>
+      Yan Luiz Neves Lemos — RM 571717
+    </div>
+  </div>
+
+
+  <!-- 1. INTRODUÇÃO -->
+  <h2>1. Introdução</h2>
+
+  <p>
+    Este relatório descreve o sistema de alerta por lógica digital da plataforma SolarGuard,
+    responsável por detectar condições críticas no módulo orbital responsável pela coleta de
+    dados de irradiância solar via satélite. A partir de cinco variáveis booleanas que representam
+    o estado operacional do módulo, uma expressão lógica define quando o alerta principal
+    do sistema (<strong>X = 1</strong>) deve ser acionado.
+  </p>
+  <p>
+    A lógica foi implementada em Python (<code>logica_booleana.py</code>) e está alinhada com os
+    parâmetros operacionais utilizados pelas demais camadas da plataforma (Mission Control AI,
+    Estação Receptora IoT e Agente de IA).
+  </p>
+
+
+  <!-- 2. VARIÁVEIS -->
+  <h2>2. Definição das Variáveis de Entrada</h2>
+
+  <p>
+    O sistema possui cinco variáveis booleanas, cada uma representando uma condição
+    operacional crítica do módulo orbital. Todas assumem valor <strong>1</strong> em condição
+    de risco e <strong>0</strong> em condição normal.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Variável</th>
+        <th>Significado</th>
+        <th>Condição = 1 (risco)</th>
+        <th>Origem do dado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>A</strong></td><td>Falha de comunicação com o módulo orbital</td><td>comunicacao &lt; 30%</td><td>Link telemétrico</td></tr>
+      <tr><td><strong>B</strong></td><td>Temperatura crítica do módulo receptor</td><td>temperatura &gt; 35°C</td><td>Sensor interno</td></tr>
+      <tr><td><strong>C</strong></td><td>Nível crítico de energia / bateria</td><td>bateria &lt; 20%</td><td>Sistema de energia</td></tr>
+      <tr><td><strong>D</strong></td><td>Instabilidade operacional da estação</td><td>estabilidade &lt; 40%</td><td>Giroscópio / IMU</td></tr>
+      <tr><td><strong>E</strong></td><td>Nível crítico de oxigênio no módulo</td><td>oxigenio &lt; 80%</td><td>Sensor atmosférico</td></tr>
+    </tbody>
+  </table>
+
+
+  <!-- 3. EXPRESSÃO LÓGICA -->
+  <h2>3. Expressão Lógica Booleana</h2>
+
+  <h3>3.1. Regras do sistema</h3>
+  <p>
+    O alerta principal é acionado quando qualquer uma das três condições críticas é
+    satisfeita:
+  </p>
+  <div class="box">
+    <ul>
+      <li><strong>Falha de comunicação E temperatura crítica</strong> → risco de perda total do módulo</li>
+      <li><strong>Bateria crítica isolada</strong> → operação comprometida sem energia de reserva</li>
+      <li><strong>Instabilidade E oxigênio crítico</strong> → módulo em condição de perigo iminente</li>
+    </ul>
+  </div>
+
+  <h3>3.2. Expressão completa (antes da simplificação)</h3>
+  <p>
+    Aplicando diretamente as regras acima como combinações conjuntivas e disjuntivas,
+    obtemos a expressão lógica completa:
+  </p>
+
+  <div class="formula">
+    <strong>X = (A · B) + C + (D · E)</strong>
+  </div>
+
+  <p>
+    Em notação textual usando portas lógicas:
+  </p>
+
+  <div class="formula">
+    <strong>X = (A AND B) OR C OR (D AND E)</strong>
+  </div>
+
+  <p>
+    A expressão utiliza obrigatoriamente as três portas lógicas básicas:
+    <strong>AND</strong> (conjunção dos pares A·B e D·E), <strong>OR</strong>
+    (disjunção dos três termos) e <strong>NOT</strong> (implícito na definição das
+    variáveis — por exemplo, a condição "bateria normal" é NOT C).
+  </p>
+
+
+  <!-- 4. SIMPLIFICAÇÃO -->
+  <h2>4. Simplificação da Expressão</h2>
+
+  <p>
+    Aplicando as leis da Álgebra Booleana à expressão original, verificamos
+    se há possibilidade de simplificação:
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Passo</th><th>Expressão</th><th>Lei aplicada</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>X = (A · B) + C + (D · E)</td><td>Expressão original</td></tr>
+      <tr><td>2</td><td>X = (A · B) + C + (D · E)</td><td>Identidade — termos não compartilham variáveis</td></tr>
+      <tr><td>3</td><td><strong>X = AB + C + DE</strong></td><td>Forma mínima (Soma de Produtos)</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    A expressão já se encontra em sua <strong>forma mínima (SOP — Sum of Products)</strong>.
+    Como os três termos (AB, C, DE) não compartilham variáveis comuns, não é possível
+    aplicar fatoração nem leis distributivas para reduzir o número de operações.
+    A verificação pelo método de Quine-McCluskey confirma que esta é a expressão mínima:
+    três implicantes primos essenciais, sem termos redundantes.
+  </p>
+
+  <div class="formula">
+    <strong>X<sub>simplificada</sub> = AB + C + DE</strong>
+  </div>
+
+  <h3>4.1. Validação pelo Mapa de Karnaugh (5 variáveis)</h3>
+  <p>
+    Com 5 variáveis, o Mapa de Karnaugh possui 32 células. Analisando os agrupamentos:
+  </p>
+  <div class="box">
+    <ul>
+      <li><strong>C = 1</strong> ocupa 16 células (metade do mapa) — implicante primo essencial</li>
+      <li><strong>AB = 1</strong> ocupa 8 células, das quais 4 já estão cobertas por C; restam 4 células com AB = 1 e C = 0 — implicante primo essencial</li>
+      <li><strong>DE = 1</strong> ocupa 8 células, das quais 4 já estão cobertas por C; restam 4 células com DE = 1 e C = 0 — implicante primo essencial</li>
+    </ul>
+  </div>
+  <p>
+    Como os três implicantes são essenciais e cobrem todas as 21 células com X = 1
+    (verificável na tabela verdade), a expressão simplificada coincide com a expressão original.
+  </p>
+
+
+  <!-- 5. TABELA VERDADE -->
+  <div class="page-break"></div>
+  <h2>5. Tabela Verdade Completa</h2>
+
+  <p>
+    A tabela verdade considera todas as <strong>2<sup>5</sup> = 32 combinações</strong>
+    possíveis das cinco variáveis de entrada. As linhas em destaque indicam combinações
+    em que o alerta é acionado (X = 1).
+  </p>
+
+  <table class="truth-mini">
+    <thead>
+      <tr>
+        <th>#</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>X</th><th>Situação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr class="alerta-1"><td>3</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>Instabilidade + O₂ crítico</td></tr>
+      <tr class="alerta-1"><td>4</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>5</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>6</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>7</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>Bateria + Instab. + O₂</td></tr>
+      <tr><td>8</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr><td>9</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr><td>10</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr class="alerta-1"><td>11</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>Instabilidade + O₂ crítico</td></tr>
+      <tr class="alerta-1"><td>12</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>13</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>14</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>15</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>Múltiplas falhas</td></tr>
+      <tr><td>16</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr><td>17</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr><td>18</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td class="alerta-0">0</td><td>Operação normal</td></tr>
+      <tr class="alerta-1"><td>19</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>Instabilidade + O₂ crítico</td></tr>
+      <tr class="alerta-1"><td>20</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>21</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>22</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>Bateria crítica</td></tr>
+      <tr class="alerta-1"><td>23</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>Múltiplas falhas</td></tr>
+      <tr class="alerta-1"><td>24</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>Falha comm + Temp crítica</td></tr>
+      <tr class="alerta-1"><td>25</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>Falha comm + Temp crítica</td></tr>
+      <tr class="alerta-1"><td>26</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>Falha comm + Temp crítica</td></tr>
+      <tr class="alerta-1"><td>27</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>Múltiplas falhas</td></tr>
+      <tr class="alerta-1"><td>28</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>Múltiplas falhas</td></tr>
+      <tr class="alerta-1"><td>29</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>Múltiplas falhas</td></tr>
+      <tr class="alerta-1"><td>30</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>Múltiplas falhas</td></tr>
+      <tr class="alerta-1"><td>31</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>Colapso total</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <strong>Resumo:</strong> de 32 combinações, <span class="hl">21 acionam o alerta (X = 1)</span>
+    e 11 representam operação normal (X = 0). Isso confirma a sensibilidade do sistema
+    a múltiplas condições críticas independentes.
+  </p>
+
+
+  <!-- 6. CIRCUITO LÓGICO -->
+  <div class="page-break"></div>
+  <h2>6. Circuito Lógico Digital</h2>
+
+  <p>
+    O circuito implementa a expressão <strong>X = (A · B) + C + (D · E)</strong> utilizando
+    três circuitos integrados padrão da família TTL:
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>CI</th><th>Família</th><th>Função</th><th>Uso no projeto</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>74LS08</td><td>TTL</td><td>Quad 2-input AND gate</td><td>Portas AND para (A · B) e (D · E)</td></tr>
+      <tr><td>74LS32</td><td>TTL</td><td>Quad 2-input OR gate</td><td>Portas OR para combinar os três termos</td></tr>
+      <tr><td>74LS04</td><td>TTL</td><td>Hex inverter (NOT)</td><td>Inversão lógica (condições "normal")</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.1. Diagrama lógico</h3>
+
+  <div class="circuito">
+   A ─┐
+      │  ┌──────┐
+      ├──│ AND  │──┐    (A · B)
+   B ─┘  │ 74LS08│  │
+         └──────┘   │
+                    │
+   C ───────────────┼─────┐
+                    │     │
+                    │     │   ┌──────┐
+                    └─────┼───│ OR   │
+                          │   │ 74LS32│──── X  (alerta)
+                          │   │      │
+   D ─┐  ┌──────┐        │   └──────┘
+      ├──│ AND  │──┐     │
+      │  │ 74LS08│  │     │
+   E ─┘  └──────┘   │     │
+                    └─────┘    (D · E)
+  </div>
+
+  <h3>6.2. Pinagem do circuito completo</h3>
+
+  <table>
+    <thead>
+      <tr><th>Sinal</th><th>Origem</th><th>CI / Pino</th><th>Destino</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>A</td><td>Entrada</td><td>74LS08 / pino 1</td><td>AND #1 (entrada)</td></tr>
+      <tr><td>B</td><td>Entrada</td><td>74LS08 / pino 2</td><td>AND #1 (entrada)</td></tr>
+      <tr><td>(A·B)</td><td>74LS08 / pino 3</td><td>74LS32 / pino 1</td><td>OR #1 (entrada)</td></tr>
+      <tr><td>D</td><td>Entrada</td><td>74LS08 / pino 4</td><td>AND #2 (entrada)</td></tr>
+      <tr><td>E</td><td>Entrada</td><td>74LS08 / pino 5</td><td>AND #2 (entrada)</td></tr>
+      <tr><td>(D·E)</td><td>74LS08 / pino 6</td><td>74LS32 / pino 4</td><td>OR #2 (entrada)</td></tr>
+      <tr><td>C</td><td>Entrada</td><td>74LS32 / pino 2</td><td>OR #1 (entrada)</td></tr>
+      <tr><td>(A·B)+C</td><td>74LS32 / pino 3</td><td>74LS32 / pino 5</td><td>OR #2 (entrada)</td></tr>
+      <tr><td><strong>X</strong></td><td>74LS32 / pino 6</td><td>LED + resistor 220Ω</td><td>Indicador de alerta</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <strong>Alimentação:</strong> VCC = +5V (pino 14 dos CIs), GND = 0V (pino 7).
+    Todos os CIs operam com tensão TTL padrão. O LED indicador no pino de saída X
+    acende quando o alerta é acionado.
+  </p>
+
+
+  <!-- 7. FUNCIONAMENTO -->
+  <h2>7. Funcionamento do Alerta X = 1</h2>
+
+  <p>
+    O alerta principal <strong>X = 1</strong> indica que o módulo orbital está em condição
+    operacional crítica e demanda intervenção imediata. As três condições que disparam o
+    alerta correspondem a cenários físicos distintos:
+  </p>
+
+  <div class="box">
+    <ul>
+      <li><strong>(A · B) — Falha de comunicação + Temperatura crítica:</strong>
+      o módulo está superaquecido E sem link telemétrico. Sem comunicação, não é possível
+      enviar comandos remotos de resfriamento, o que pode levar à perda total do hardware.</li>
+
+      <li><strong>C — Bateria crítica:</strong> sozinha já é suficiente para acionar o alerta.
+      Sem energia, todos os subsistemas falham simultaneamente. É a condição com maior peso
+      operacional, por isso aparece como termo isolado na expressão.</li>
+
+      <li><strong>(D · E) — Instabilidade + Oxigênio crítico:</strong> combinação que indica
+      um possível dano estrutural ao módulo. A instabilidade pode estar causando vazamento
+      do sistema atmosférico, justificando a queda do oxigênio.</li>
+    </ul>
+  </div>
+
+  <p>
+    A escolha de combinar A com B, e D com E, em vez de tratá-las isoladamente,
+    reduz alertas falsos: temperatura elevada sozinha (B = 1) pode ser transitória durante
+    exposição solar direta; instabilidade isolada (D = 1) pode ser um ajuste de atitude
+    programado. Apenas a combinação destas com outra anomalia justifica o disparo do alerta.
+  </p>
+
+
+  <!-- 8. DEMONSTRAÇÃO -->
+  <h2>8. Demonstração nos Ciclos da Missão</h2>
+
+  <p>
+    A simulação aplica a expressão lógica aos 6 ciclos de monitoramento da missão SolarGuard
+    Alpha. Para cada ciclo, as variáveis A–E são extraídas dos dados brutos
+    (temperatura, comunicação, bateria, oxigênio, estabilidade) e a expressão é avaliada.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Ciclo</th>
+        <th>Temp</th><th>Comm</th><th>Bat</th><th>Ox</th><th>Estab</th>
+        <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th>
+        <th>X</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>22°C</td><td>98%</td><td>87%</td><td>95%</td><td>90%</td>
+          <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+          <td class="alerta-0">0</td><td>Normal</td></tr>
+      <tr><td>2</td><td>31°C</td><td>94%</td><td>76%</td><td>93%</td><td>85%</td>
+          <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+          <td class="alerta-0">0</td><td>Normal</td></tr>
+      <tr><td>3</td><td>45°C</td><td>87%</td><td>61%</td><td>90%</td><td>70%</td>
+          <td>0</td><td>1</td><td>0</td><td>0</td><td>0</td>
+          <td class="alerta-0">0</td><td>Normal (B isolada)</td></tr>
+      <tr><td>4</td><td>58°C</td><td>72%</td><td>42%</td><td>85%</td><td>55%</td>
+          <td>0</td><td>1</td><td>0</td><td>0</td><td>0</td>
+          <td class="alerta-0">0</td><td>Normal (B isolada)</td></tr>
+      <tr><td>5</td><td>38°C</td><td>89%</td><td>55%</td><td>92%</td><td>75%</td>
+          <td>0</td><td>1</td><td>0</td><td>0</td><td>0</td>
+          <td class="alerta-0">0</td><td>Normal (B isolada)</td></tr>
+      <tr><td>6</td><td>27°C</td><td>96%</td><td>71%</td><td>94%</td><td>82%</td>
+          <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+          <td class="alerta-0">0</td><td>Normal</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Nenhum dos 6 ciclos atingiu condição que justificasse o alerta segundo a expressão
+    booleana definida. Os ciclos 3, 4 e 5 apresentaram temperatura elevada (B = 1), mas
+    sem falha de comunicação simultânea (A = 0), portanto o termo (A · B) permanece 0.
+    Esta é exatamente a robustez desejada: o sistema não dispara alertas por uma única
+    variável transitória, exigindo combinações de risco para acionamento.
+  </p>
+
+
+  <!-- 9. CONCLUSÃO -->
+  <h2>9. Conclusão</h2>
+
+  <p>
+    O sistema de alerta por lógica digital da plataforma SolarGuard demonstra como conceitos
+    de Álgebra Booleana e circuitos lógicos podem ser aplicados a um problema real de
+    monitoramento espacial. A expressão <strong>X = AB + C + DE</strong>, já em sua forma
+    mínima, representa adequadamente as três classes de risco identificadas na operação do
+    módulo orbital.
+  </p>
+  <p>
+    A implementação dual — em Python para simulação algorítmica e em hardware via CIs
+    74LS08, 74LS32 e 74LS04 para uma versão física — comprova a equivalência entre
+    a abstração lógica e a realização eletrônica. A tabela verdade completa de 32 linhas
+    valida o comportamento esperado em todas as combinações possíveis de entrada.
+  </p>
+
+
+  <div class="rodape">
+    SolarGuard — Global Solution 2026.1 &nbsp;|&nbsp; FIAP 1CCPY — Grupo 5 &nbsp;|&nbsp;
+    Computer Science — Lógica Digital de Alertas
+  </div>
+
+</div>
+</body>
+</html>

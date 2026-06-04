@@ -1,0 +1,14 @@
+SolarGuard — Mission Control AI
+Pensamento Computacional e Automação com Python
+Global Solution 2026.1 — FIAP 1CCPY — Grupo 5 (trio)
+
+INTEGRANTES:
+Jair Ferreira dos Santos Neto — RM 569682
+Matheus da Costa Gonçalves — RM 570756
+Yan Luiz Neves Lemos — RM 571717
+
+LINK DO VÍDEO PITCH (YouTube, não listado, máx. 3 min):
+(a inserir)
+
+LINK DO REPOSITÓRIO GITHUB:
+https://github.com/jairferreira8/Global-Solution---Space-Connect

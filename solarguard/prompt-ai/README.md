@@ -6,6 +6,9 @@ SolarGuard — Global Solution 2026.1 | FIAP 1CCPY
 
 Agente de IA que interpreta os dados de cada ciclo de monitoramento do SolarGuard e gera análise de status, previsão e recomendação em linguagem natural. Usa o modelo Llama 3.1 via Groq API com engenharia de prompt (system prompt + user prompt com histórico de ciclos).
 
+## Se quiser saber mais sobre o projeto:
+https://github.com/jairferreira8/Global-Solution---Space-Connect.git
+
 ## Integrantes
 
 | Nome | RM |

@@ -109,6 +109,50 @@ print(f"  {'IQR (Q3 - Q1)':<28} {iqr:.4f} kWh/m²/dia")
 print()
 
 
+# ── 3b. Análise univariada — temperatura ──────────────────────────────────
+
+print("─" * 65)
+print("  ANÁLISE UNIVARIADA — Temperatura Diária (°C)")
+print("─" * 65)
+
+temp = df["temperatura_c"]
+
+t_media     = temp.mean()
+t_mediana   = temp.median()
+t_moda_r    = stats.mode(temp, keepdims=True)
+t_moda_v    = t_moda_r.mode[0]
+t_maximo    = temp.max()
+t_minimo    = temp.min()
+t_amplitude = t_maximo - t_minimo
+t_variancia = temp.var(ddof=1)
+t_desvpad   = temp.std(ddof=1)
+t_cv        = (t_desvpad / t_media) * 100
+t_q1        = temp.quantile(0.25)
+t_q2        = temp.quantile(0.50)
+t_q3        = temp.quantile(0.75)
+t_iqr       = t_q3 - t_q1
+
+print(f"\n  Medidas de Tendência Central")
+print(f"  {'Média':<28} {t_media:.4f} °C")
+print(f"  {'Mediana':<28} {t_mediana:.4f} °C")
+print(f"  {'Moda (aprox.)':<28} {t_moda_v:.4f} °C")
+
+print(f"\n  Medidas de Dispersão")
+print(f"  {'Máximo':<28} {t_maximo:.4f} °C")
+print(f"  {'Mínimo':<28} {t_minimo:.4f} °C")
+print(f"  {'Amplitude':<28} {t_amplitude:.4f} °C")
+print(f"  {'Variância':<28} {t_variancia:.4f}")
+print(f"  {'Desvio Padrão':<28} {t_desvpad:.4f} °C")
+print(f"  {'Coeficiente de Variação':<28} {t_cv:.2f}%")
+
+print(f"\n  Medidas Separatrizes (Quartis)")
+print(f"  {'Q1 (25%)':<28} {t_q1:.4f} °C")
+print(f"  {'Q2 — Mediana (50%)':<28} {t_q2:.4f} °C")
+print(f"  {'Q3 (75%)':<28} {t_q3:.4f} °C")
+print(f"  {'IQR (Q3 - Q1)':<28} {t_iqr:.4f} °C")
+print()
+
+
 # ── 4. Gráfico 1 — Irradiância média mensal (barras) ───────────────────────
 
 media_mensal = df.groupby("mes")["irradiancia_kwh_m2"].mean()

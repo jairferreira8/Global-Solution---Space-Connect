@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>SolarGuard — Fluxograma DSA</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      color: #1a1a1a;
+      background: #fff;
+      padding: 30px;
+    }
+
+    @page { size: A4 portrait; margin: 1.5cm; }
+
+    .container { max-width: 900px; margin: 0 auto; }
+
+    .header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #e67e22;
+      margin-bottom: 30px;
+    }
+    .logo { font-size: 22pt; font-weight: bold; color: #e67e22; letter-spacing: 3px; }
+    .titulo { font-size: 13pt; font-weight: bold; margin-top: 8px; }
+    .subtitulo { font-size: 10pt; color: #666; margin-top: 5px; }
+
+    h2 {
+      font-size: 12pt;
+      color: #e67e22;
+      border-bottom: 1.5px solid #e67e22;
+      padding-bottom: 4px;
+      margin: 28px 0 14px;
+    }
+
+    .fluxo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin: 20px 0;
+    }
+
+    .nodo {
+      padding: 10px 22px;
+      min-width: 220px;
+      text-align: center;
+      font-size: 10pt;
+      font-weight: bold;
+      border: 2px solid;
+      position: relative;
+    }
+
+    .inicio, .fim {
+      border-radius: 30px;
+      background: #e67e22;
+      color: #fff;
+      border-color: #c0651a;
+    }
+
+    .processo {
+      background: #fdf3e7;
+      border-color: #e67e22;
+      color: #333;
+    }
+
+    .decisao {
+      background: #fff5d6;
+      border-color: #f39c12;
+      transform: rotate(0deg);
+      padding: 14px 28px;
+      color: #7a4a00;
+      max-width: 320px;
+    }
+
+    .entrada {
+      background: #d6eaf8;
+      border-color: #3498db;
+      color: #1a4d6e;
+      transform: skew(-15deg);
+      padding: 10px 30px;
+    }
+    .entrada span { display: inline-block; transform: skew(15deg); }
+
+    .seta {
+      width: 2px;
+      height: 28px;
+      background: #555;
+      position: relative;
+    }
+    .seta::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: -5px;
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #555;
+    }
+
+    .seta-curta { height: 18px; }
+
+    .legenda {
+      background: #f8f9fa;
+      border-left: 4px solid #e67e22;
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: 9.5pt;
+    }
+    .legenda .item { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .legenda .sym {
+      width: 18px; height: 18px; display: inline-block;
+      border: 2px solid;
+    }
+    .legenda .sym.inicio   { background: #e67e22; border-color: #c0651a; border-radius: 50%; }
+    .legenda .sym.processo { background: #fdf3e7; border-color: #e67e22; }
+    .legenda .sym.decisao  { background: #fff5d6; border-color: #f39c12; transform: rotate(45deg); }
+    .legenda .sym.entrada  { background: #d6eaf8; border-color: #3498db; }
+
+    .ramos {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin: 6px 0 0;
+    }
+    .ramo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .ramo-label {
+      font-size: 8.5pt;
+      color: #777;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .menu-bloco {
+      background: #fdf3e7;
+      border: 2px solid #e67e22;
+      border-radius: 6px;
+      padding: 14px 18px;
+      width: 320px;
+      font-size: 9.5pt;
+      color: #333;
+    }
+    .menu-bloco .titulo-bloco { font-weight: bold; text-align: center; margin-bottom: 8px; color: #c0651a; }
+    .menu-bloco ol { padding-left: 22px; }
+    .menu-bloco li { margin-bottom: 4px; }
+
+    .rodape {
+      text-align: center;
+      margin-top: 36px;
+      padding-top: 12px;
+      border-top: 1.5px solid #e67e22;
+      font-size: 9pt;
+      color: #888;
+    }
+
+    .alertas-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 8px 0;
+      width: 100%;
+      max-width: 700px;
+    }
+    .alerta-cond {
+      background: #fff5d6;
+      border: 2px solid #f39c12;
+      padding: 8px 10px;
+      text-align: center;
+      font-size: 9pt;
+      color: #7a4a00;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="logo">☀ SOLARGUARD</div>
+    <div class="titulo">Fluxograma do Sistema de Monitoramento</div>
+    <div class="subtitulo">Data Structures and Algorithms — Global Solution 2026.1 — FIAP 1CCPY — Grupo 5</div>
+  </div>
+
+
+  <h2>1. Fluxograma Principal</h2>
+
+  <div class="fluxo">
+
+    <div class="nodo inicio">INÍCIO</div>
+    <div class="seta"></div>
+
+    <div class="nodo processo">Carregar histórico vazio</div>
+    <div class="seta"></div>
+
+    <div class="nodo processo">Exibir cabeçalho do menu</div>
+    <div class="seta"></div>
+
+    <div class="menu-bloco">
+      <div class="titulo-bloco">MENU INTERATIVO</div>
+      <ol>
+        <li>Inserir dados — simular próximo ciclo</li>
+        <li>Visualizar status atual da missão</li>
+        <li>Executar análise</li>
+        <li>Histórico das leituras</li>
+        <li>Encerrar sistema</li>
+      </ol>
+    </div>
+    <div class="seta"></div>
+
+    <div class="nodo entrada"><span>Ler opção do usuário</span></div>
+    <div class="seta"></div>
+
+    <div class="nodo decisao">◇ Opção = 5? ◇</div>
+
+    <div class="ramos">
+      <div class="ramo">
+        <div class="ramo-label">SIM</div>
+        <div class="seta seta-curta"></div>
+        <div class="nodo fim">FIM</div>
+      </div>
+      <div class="ramo">
+        <div class="ramo-label">NÃO</div>
+        <div class="seta seta-curta"></div>
+        <div class="nodo processo">Executar ação correspondente</div>
+        <div class="seta"></div>
+        <div class="nodo processo">Adicionar leitura ao histórico (se aplicável)</div>
+        <div class="seta"></div>
+        <div class="nodo processo">Retornar ao menu ↻</div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <h2>2. Sub-rotina: Verificação Automática de Alertas</h2>
+
+  <div class="fluxo">
+
+    <div class="nodo inicio">Receber dados do ciclo</div>
+    <div class="seta"></div>
+
+    <div class="nodo processo">Extrair temperatura, comunicação,<br>bateria, oxigênio, estabilidade</div>
+    <div class="seta"></div>
+
+    <div class="nodo decisao">◇ Temperatura &gt; 80°C? ◇</div>
+    <div class="seta"></div>
+
+    <div class="alertas-grid">
+      <div class="alerta-cond">SIM → Alerta:<br>SUPERAQUECIMENTO</div>
+      <div class="alerta-cond" style="background:#e8f8e8;border-color:#27ae60;color:#1a5a1a;">NÃO → Continua</div>
+      <div></div>
+    </div>
+    <div class="seta"></div>
+
+    <div class="nodo decisao">◇ Energia &lt; 20%? ◇</div>
+    <div class="seta"></div>
+
+    <div class="alertas-grid">
+      <div class="alerta-cond">SIM → Alerta:<br>BATERIA CRÍTICA</div>
+      <div class="alerta-cond" style="background:#e8f8e8;border-color:#27ae60;color:#1a5a1a;">NÃO → Continua</div>
+      <div></div>
+    </div>
+    <div class="seta"></div>
+
+    <div class="nodo decisao">◇ Comunicação = 0? ◇</div>
+    <div class="seta"></div>
+
+    <div class="alertas-grid">
+      <div class="alerta-cond">SIM → Alerta:<br>FALHA DE COMUNICAÇÃO</div>
+      <div class="alerta-cond" style="background:#e8f8e8;border-color:#27ae60;color:#1a5a1a;">NÃO → Continua</div>
+      <div></div>
+    </div>
+    <div class="seta"></div>
+
+    <div class="nodo processo">Retornar lista de alertas</div>
+    <div class="seta"></div>
+
+    <div class="nodo fim">FIM</div>
+
+  </div>
+
+
+
+  <div class="rodape">
+    SolarGuard — Global Solution 2026.1 &nbsp;|&nbsp; FIAP 1CCPY — Grupo 5 &nbsp;|&nbsp;
+    Data Structures and Algorithms
+  </div>
+
+</div>
+</body>
+</html>

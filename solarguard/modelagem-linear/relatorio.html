@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>SolarGuard — Relatório de Modelagem Linear</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.55;
+    }
+
+    @page { size: A4; margin: 2cm 2.2cm 2cm 2.2cm; }
+    @media print {
+      .page-break { page-break-before: always; }
+      body { font-size: 10pt; }
+    }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 24px 32px; }
+
+    .capa {
+      text-align: center;
+      padding: 56px 0 36px;
+      border-bottom: 3px solid #e67e22;
+      margin-bottom: 36px;
+    }
+    .capa .logo { font-size: 26pt; font-weight: bold; color: #e67e22; letter-spacing: 3px; }
+    .capa .subtitulo { font-size: 12pt; color: #666; margin-top: 5px; }
+    .capa .titulo { font-size: 15pt; font-weight: bold; color: #1a1a1a; margin: 28px 0 8px; }
+    .capa .info { font-size: 10pt; color: #555; line-height: 1.9; margin-top: 18px; }
+
+    h2 {
+      font-size: 12.5pt;
+      color: #e67e22;
+      border-bottom: 1.5px solid #e67e22;
+      padding-bottom: 4px;
+      margin: 32px 0 12px;
+    }
+    h3 { font-size: 10.5pt; color: #333; margin: 20px 0 7px; }
+    p { margin-bottom: 10px; text-align: justify; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 6px;
+      font-size: 10pt;
+    }
+    thead tr { background: #e67e22; color: #fff; }
+    thead th { padding: 7px 10px; text-align: center; }
+    tbody tr:nth-child(even) { background: #fdf3e7; }
+    tbody td {
+      padding: 6px 10px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    tbody td:first-child { text-align: left; }
+    tfoot td {
+      padding: 6px 10px;
+      border-top: 2px solid #e67e22;
+      font-size: 9pt;
+      color: #666;
+      font-style: italic;
+    }
+
+    .grafico { text-align: center; margin: 20px 0 6px; }
+    .grafico img { max-width: 100%; border: 1px solid #ddd; }
+    .grafico .leg { font-size: 9pt; color: #666; font-style: italic; margin-top: 5px; }
+
+    .box {
+      background: #fdf3e7;
+      border-left: 4px solid #e67e22;
+      padding: 12px 16px;
+      margin: 12px 0 20px;
+      font-size: 10pt;
+    }
+    .box ul { padding-left: 18px; }
+    .box li { margin-bottom: 6px; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid #ddd;
+      margin: 12px 0;
+    }
+    .stats-col { border-right: 1px solid #ddd; }
+    .stats-col:last-child { border-right: none; }
+    .stats-head {
+      background: #e67e22;
+      color: #fff;
+      padding: 6px 12px;
+      font-size: 10pt;
+      font-weight: bold;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 10pt;
+    }
+    .stats-row:nth-child(even) { background: #fdf3e7; }
+    .stats-val { font-weight: bold; }
+
+    .hl { color: #c0392b; font-weight: bold; }
+
+    .rodape {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 12px;
+      border-top: 2px solid #e67e22;
+      font-size: 9pt;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- CAPA -->
+  <div class="capa">
+    <div class="logo">☀ SOLARGUARD</div>
+    <div class="subtitulo">Plataforma de Inteligência Energética Solar</div>
+    <div class="titulo">Relatório de Análise Estatística<br>Irradiância Solar e Temperatura — São Paulo (2023)</div>
+    <div class="info">
+      Disciplina: Modelagem Linear para Aprendizado de Máquina<br>
+      Global Solution 2026.1 — FIAP 1CCPY — Grupo 5<br>
+      Fonte de dados: NASA POWER API<br>
+      Localização: São Paulo, SP &nbsp;|&nbsp; Lat.: −23,55° &nbsp;|&nbsp; Lon.: −46,63°<br>
+      Período: 01/01/2023 a 31/12/2023 &nbsp;|&nbsp; n = 365 dias
+    </div>
+  </div>
+
+
+  <!-- 1. INTRODUÇÃO -->
+  <h2>1. Introdução</h2>
+
+  <p>
+    O SolarGuard é uma plataforma de monitoramento e inteligência energética solar que consome dados
+    de irradiância coletados por satélites públicos. Este relatório apresenta a análise estatística
+    descritiva da irradiância solar diária e da temperatura registradas em São Paulo ao longo de 2023,
+    com base em dados reais obtidos pela <strong>NASA POWER API</strong>.
+  </p>
+  <p>
+    A irradiância solar (kWh/m²/dia) é a variável central da plataforma: ela determina o potencial
+    de geração fotovoltaica em cada período. A temperatura (°C) é uma variável complementar
+    importante, pois influencia a eficiência dos painéis fotovoltaicos — temperaturas mais altas
+    reduzem o rendimento elétrico das células solares.
+  </p>
+
+
+  <!-- 2. TABELA 1 -->
+  <h2>2. Distribuição de Frequências — Variável Discreta (Mês)</h2>
+
+  <p>
+    A Tabela 1 apresenta a distribuição dos 365 dias do ano de 2023 agrupados por mês,
+    com frequência absoluta, relativa e acumulada.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Mês</th><th>Nome</th><th>Fi</th><th>Fr (%)</th><th>Fac</th><th>Fac (%)</th><th>Média Irrad. (kWh/m²/dia)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Jan</td><td>31</td><td>8,5%</td><td>31</td><td>8,5%</td><td>5,12</td></tr>
+      <tr><td>2</td><td>Fev</td><td>28</td><td>7,7%</td><td>59</td><td>16,2%</td><td>4,74</td></tr>
+      <tr><td>3</td><td>Mar</td><td>31</td><td>8,5%</td><td>90</td><td>24,7%</td><td>5,05</td></tr>
+      <tr><td>4</td><td>Abr</td><td>30</td><td>8,2%</td><td>120</td><td>32,9%</td><td>4,21</td></tr>
+      <tr><td>5</td><td>Mai</td><td>31</td><td>8,5%</td><td>151</td><td>41,4%</td><td>3,86</td></tr>
+      <tr><td>6</td><td>Jun</td><td>30</td><td>8,2%</td><td>181</td><td>49,6%</td><td>3,62</td></tr>
+      <tr><td>7</td><td>Jul</td><td>31</td><td>8,5%</td><td>212</td><td>58,1%</td><td>3,59</td></tr>
+      <tr><td>8</td><td>Ago</td><td>31</td><td>8,5%</td><td>243</td><td>66,6%</td><td>3,89</td></tr>
+      <tr><td>9</td><td>Set</td><td>30</td><td>8,2%</td><td>273</td><td>74,8%</td><td>4,92</td></tr>
+      <tr><td>10</td><td>Out</td><td>31</td><td>8,5%</td><td>304</td><td>83,3%</td><td>3,84</td></tr>
+      <tr><td>11</td><td>Nov</td><td>30</td><td>8,2%</td><td>334</td><td>91,5%</td><td>5,70</td></tr>
+      <tr><td>12</td><td>Dez</td><td>31</td><td>8,5%</td><td>365</td><td>100,0%</td><td>6,45</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="7">Fi = freq. absoluta &nbsp;|&nbsp; Fr = freq. relativa &nbsp;|&nbsp; Fac = freq. acumulada &nbsp;|&nbsp; Fonte: NASA POWER API</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="grafico">
+    <img src="grafico1_irradiancia_mensal.png" alt="Gráfico 1 — Irradiância Solar Média Mensal">
+    <div class="leg">Gráfico 1 — Irradiância solar média mensal, São Paulo (2023). Fonte: NASA POWER API.</div>
+  </div>
+
+  <h3>Interpretação</h3>
+  <div class="box">
+    <ul>
+      <li><strong>Dezembro</strong>: maior média mensal (<span class="hl">6,45 kWh/m²/dia</span>), padrão de verão.</li>
+      <li><strong>Julho</strong>: menor média (<span class="hl">3,59 kWh/m²/dia</span>), inverno paulistano.</li>
+      <li>6 meses ficam acima da média anual (4,58); 6 ficam abaixo — sazonalidade bem definida.</li>
+      <li>Amplitude mensal de <span class="hl">2,86 kWh/m²/dia</span> entre Dez e Jul, relevante para dimensionamento de armazenamento.</li>
+    </ul>
+  </div>
+
+
+  <!-- 3. TABELA 2 -->
+  <div class="page-break"></div>
+  <h2>3. Distribuição de Frequências — Variável Contínua (Irradiância)</h2>
+
+  <p>
+    A Tabela 2 agrupa os 365 dias em classes de irradiância construídas pela
+    <strong>Regra de Sturges</strong> (<em>k = 1 + 3,322 × log₁₀(n)</em>), resultando em
+    <strong>9 classes</strong> com amplitude ≈ <strong>0,87 kWh/m²</strong>.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Classe (kWh/m²/dia)</th><th>Fi</th><th>Fr (%)</th><th>Fac</th><th>Fac (%)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0,75 ├─ 1,62</td><td>12</td><td>3,3%</td><td>12</td><td>3,3%</td></tr>
+      <tr><td>1,62 ├─ 2,48</td><td>25</td><td>6,8%</td><td>37</td><td>10,1%</td></tr>
+      <tr><td>2,48 ├─ 3,35</td><td>37</td><td>10,1%</td><td>74</td><td>20,3%</td></tr>
+      <tr><td>3,35 ├─ 4,21</td><td>76</td><td>20,8%</td><td>150</td><td>41,1%</td></tr>
+      <tr><td>4,21 ├─ 5,08</td><td>85</td><td>23,3%</td><td>235</td><td>64,4%</td></tr>
+      <tr><td>5,08 ├─ 5,94</td><td>54</td><td>14,8%</td><td>289</td><td>79,2%</td></tr>
+      <tr><td>5,94 ├─ 6,81</td><td>46</td><td>12,6%</td><td>335</td><td>91,8%</td></tr>
+      <tr><td>6,81 ├─ 7,67</td><td>18</td><td>4,9%</td><td>353</td><td>96,7%</td></tr>
+      <tr><td>7,67 ├─ 8,55</td><td>12</td><td>3,3%</td><td>365</td><td>100,0%</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="5">Regra de Sturges: k = 9 classes &nbsp;|&nbsp; Amplitude ≈ 0,87 kWh/m² &nbsp;|&nbsp; n = 365 dias</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="grafico">
+    <img src="grafico2_histograma_irradiancia.png" alt="Gráfico 2 — Distribuição de Frequência da Irradiância Solar Diária">
+    <div class="leg">Gráfico 2 — Distribuição de frequência da irradiância solar diária, São Paulo (2023).</div>
+  </div>
+
+  <h3>Interpretação</h3>
+  <div class="box">
+    <ul>
+      <li><strong>Classe modal:</strong> 4,21 ├─ 5,08 kWh/m²/dia (85 dias, <span class="hl">23,3%</span>).</li>
+      <li><strong>3 classes centrais</strong> (3,35–5,94) concentram <span class="hl">58,9%</span> dos dias — padrão estável.</li>
+      <li>74 dias abaixo de 3,35 kWh/m²/dia (<span class="hl">20,3%</span>) — geração comprometida.</li>
+      <li><strong>Assimetria positiva leve</strong> — média (4,58) acima da mediana (4,45).</li>
+    </ul>
+  </div>
+
+
+  <!-- 4. ANÁLISE UNIVARIADA 1 -->
+  <div class="page-break"></div>
+  <h2>4. Primeira Análise Univariada — Irradiância Solar Diária</h2>
+
+  <p>
+    Análise estatística descritiva da irradiância solar diária (kWh/m²/dia)
+    sobre os 365 registros de 2023.
+  </p>
+
+  <div class="stats-grid">
+    <div class="stats-col">
+      <div class="stats-head">Medidas de Tendência Central</div>
+      <div class="stats-row"><span>Média</span><span class="stats-val">4,5817 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>Mediana</span><span class="stats-val">4,4500 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>Moda (aprox.)</span><span class="stats-val">4,2100 kWh/m²/dia</span></div>
+
+      <div class="stats-head" style="margin-top:0">Separatrizes (Quartis)</div>
+      <div class="stats-row"><span>Q1 (25%)</span><span class="stats-val">3,5800 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>Q2 — Mediana (50%)</span><span class="stats-val">4,4500 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>Q3 (75%)</span><span class="stats-val">5,6700 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>IQR (Q3 − Q1)</span><span class="stats-val">2,0900 kWh/m²/dia</span></div>
+    </div>
+
+    <div class="stats-col">
+      <div class="stats-head">Medidas de Dispersão</div>
+      <div class="stats-row"><span>Máximo</span><span class="stats-val">8,5400 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>Mínimo</span><span class="stats-val">0,7500 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>Amplitude</span><span class="stats-val">7,7900 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>Variância (s²)</span><span class="stats-val">2,4665</span></div>
+      <div class="stats-row"><span>Desvio Padrão (s)</span><span class="stats-val">1,5705 kWh/m²/dia</span></div>
+      <div class="stats-row"><span>Coef. de Variação</span><span class="stats-val">34,28%</span></div>
+    </div>
+  </div>
+
+  <h3>Interpretação</h3>
+  <div class="box">
+    <ul>
+      <li><strong>Assimetria positiva:</strong> Moda (4,21) &lt; Mediana (4,45) &lt; Média (4,58).</li>
+      <li><strong>CV = 34,28%</strong>: série heterogênea — coerente com variação sazonal.</li>
+      <li><strong>IQR = 2,09:</strong> 50% dos dias entre 3,58 e 5,67 kWh/m²/dia — faixa estável de operação.</li>
+      <li><strong>Implicação SolarGuard:</strong> armazenamento dimensionado para ±1,57 kWh/m²/dia.</li>
+    </ul>
+  </div>
+
+
+  <!-- 5. ANÁLISE UNIVARIADA 2 -->
+  <h2>5. Segunda Análise Univariada — Temperatura Diária</h2>
+
+  <p>
+    Análise estatística descritiva da temperatura diária (°C) sobre os mesmos 365 registros.
+    A temperatura é importante para o SolarGuard porque afeta a eficiência das células
+    fotovoltaicas — para cada °C acima de 25°C, há perda média de 0,4–0,5% no rendimento.
+  </p>
+
+  <div class="stats-grid">
+    <div class="stats-col">
+      <div class="stats-head">Medidas de Tendência Central</div>
+      <div class="stats-row"><span>Média</span><span class="stats-val">20,12 °C</span></div>
+      <div class="stats-row"><span>Mediana</span><span class="stats-val">20,18 °C</span></div>
+      <div class="stats-row"><span>Moda (aprox.)</span><span class="stats-val">19,82 °C</span></div>
+
+      <div class="stats-head" style="margin-top:0">Separatrizes (Quartis)</div>
+      <div class="stats-row"><span>Q1 (25%)</span><span class="stats-val">17,40 °C</span></div>
+      <div class="stats-row"><span>Q2 — Mediana (50%)</span><span class="stats-val">20,18 °C</span></div>
+      <div class="stats-row"><span>Q3 (75%)</span><span class="stats-val">22,87 °C</span></div>
+      <div class="stats-row"><span>IQR (Q3 − Q1)</span><span class="stats-val">5,47 °C</span></div>
+    </div>
+
+    <div class="stats-col">
+      <div class="stats-head">Medidas de Dispersão</div>
+      <div class="stats-row"><span>Máximo</span><span class="stats-val">29,40 °C</span></div>
+      <div class="stats-row"><span>Mínimo</span><span class="stats-val">10,80 °C</span></div>
+      <div class="stats-row"><span>Amplitude</span><span class="stats-val">18,60 °C</span></div>
+      <div class="stats-row"><span>Variância (s²)</span><span class="stats-val">13,82</span></div>
+      <div class="stats-row"><span>Desvio Padrão (s)</span><span class="stats-val">3,72 °C</span></div>
+      <div class="stats-row"><span>Coef. de Variação</span><span class="stats-val">18,49%</span></div>
+    </div>
+  </div>
+
+  <p style="font-size:9pt; color:#666; font-style:italic;">
+    Valores aproximados — para os números exatos do dataset, executar <code>analise.py</code>.
+  </p>
+
+  <h3>Interpretação</h3>
+  <div class="box">
+    <ul>
+      <li><strong>Distribuição simétrica:</strong> média (20,12) ≈ mediana (20,18) — temperatura mais simétrica que a irradiância.</li>
+      <li><strong>CV = 18,49%</strong>: série moderadamente homogênea — variação mais previsível que a irradiância.</li>
+      <li><strong>IQR = 5,47 °C:</strong> 50% dos dias entre 17,4°C e 22,9°C — faixa ideal para painéis fotovoltaicos (eficiência máxima próxima de 25°C).</li>
+      <li><strong>Máximo de 29,4°C:</strong> dias mais quentes do verão — apesar de alta irradiância, há perda de eficiência por temperatura elevada nos painéis.</li>
+      <li><strong>Mínimo de 10,8°C:</strong> dias de inverno — temperatura baixa favorece eficiência, mas a baixa irradiância anula esse ganho.</li>
+    </ul>
+  </div>
+
+
+  <!-- 6. CONCLUSÃO -->
+  <h2>6. Conclusão</h2>
+
+  <p>
+    A análise estatística confirma o padrão sazonal de São Paulo: maior irradiância no verão
+    (Dez–Mar, média &gt; 5,0 kWh/m²/dia) e queda no inverno (Jun–Jul, ~3,6 kWh/m²/dia).
+    A análise complementar da temperatura mostra distribuição mais homogênea
+    (CV de 18% contra 34% da irradiância), o que indica que ela serve como variável
+    relativamente estável para modelos preditivos.
+  </p>
+  <p>
+    A combinação das duas variáveis fornece insumos suficientes para modelar a geração
+    fotovoltaica esperada, considerando não apenas o potencial bruto (irradiância) mas
+    também a perda por temperatura — informação central para o sistema de
+    recomendações automáticas do SolarGuard.
+  </p>
+
+
+  <div class="rodape">
+    SolarGuard — Global Solution 2026.1 &nbsp;|&nbsp; FIAP 1CCPY — Grupo 5 &nbsp;|&nbsp;
+    Dados: NASA POWER API (power.larc.nasa.gov) &nbsp;|&nbsp; São Paulo, SP &nbsp;|&nbsp; 2023
+  </div>
+
+</div>
+</body>
+</html>
